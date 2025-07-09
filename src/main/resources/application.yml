@@ -1,0 +1,15 @@
+
+spring:
+  application:
+    name: profile-application
+    env: noset
+
+server:
+  port: ${SERVER_PORT:8086}
+
+
+springdoc:
+  swagger-ui:
+    url: /openapi.yaml
+
+
