@@ -65,7 +65,7 @@ public class AccountController {
   @GetMapping("/{accountNumber}")
   public ResponseEntity<Response> getAccount(@RequestHeader(required = true) String token,
                                              @Pattern(regexp = "^01\\d{6}$", message = "Invalid account number format")
-                                             @PathVariable("accountId") String accountNumber) {
+                                             @PathVariable("accountNumber") String accountNumber) {
     ResponseEntity<Response> response = null;
 
     try {
@@ -99,7 +99,7 @@ public class AccountController {
   @PatchMapping("/{accountNumber}")
   public ResponseEntity<Response> updateAccount(@RequestHeader(required = true) String token,
                                                 @Pattern(regexp = "^01\\d{6}$", message = "Invalid account number format")
-                                                @PathVariable("accountId") String accountNumber,
+                                                @PathVariable("accountNumber") String accountNumber,
                                                 @RequestBody UpdateBankAccountRequest account) {
     ResponseEntity<Response> response = null;
 
