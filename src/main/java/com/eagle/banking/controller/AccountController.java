@@ -8,6 +8,7 @@ import com.eagle.banking.model.dto.ErrorResponse;
 import com.eagle.banking.model.dto.Response;
 import com.eagle.banking.model.dto.UpdateBankAccountRequest;
 import com.eagle.banking.service.AccountsService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +35,9 @@ public class AccountController {
 
   private final AuthClient authClient;
 
-  @PostMapping("/")
+  @PostMapping
   public ResponseEntity<Response> createAccount(@RequestHeader(required = true) String token,
-                                                @RequestBody CreateBankAccountRequest account) {
+                                                @Valid @RequestBody CreateBankAccountRequest account) {
     ResponseEntity<Response> response = null;
 
     try {

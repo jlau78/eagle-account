@@ -9,6 +9,7 @@ import com.eagle.banking.model.mapper.AccountsMapper;
 import com.eagle.banking.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,7 @@ public class AccountsService {
       AccountEntity entity = accountRepository.save(accountMapper.toAccountEntity(request));
       response = accountMapper.toBankAccountResponse(entity);
 
-    } catch (Exception e) {
+    } catch (DataAccessException e) {
       throw new ServiceException("Error creating account: " + e.getMessage(), e);
     }
 
@@ -38,19 +39,12 @@ public class AccountsService {
   }
 
   public BankAccountResponse getAccountById(String accountId) throws ServiceException {
-    BankAccountResponse response = null;
-
-    try {
-      AccountEntity entity = accountRepository.findById(accountId)
-          .orElseThrow(() -> new ServiceException("Account not found with ID:%s".formatted(accountId)));
-      response = accountMapper.toBankAccountResponse(entity);
-
-    } catch (Exception e) {
-      throw new ServiceException("Error retrieving account: " + e.getMessage(), e);
-    }
-    return response;
+    return accountRepository.findById(accountId)
+        .map(accountMapper::toBankAccountResponse)
+        .orElse(null);
   }
 
+  @Transactional
   public BankAccountResponse updateAccount(String accountId, UpdateBankAccountRequest account) throws ServiceException {
     BankAccountResponse response = null;
 
@@ -62,7 +56,7 @@ public class AccountsService {
       entity = accountRepository.save(entity);
       response = accountMapper.toBankAccountResponse(entity);
 
-    } catch (Exception e) {
+    } catch (DataAccessException e) {
       throw new ServiceException("Error updating account: " + e.getMessage(), e);
     }
     return response;
