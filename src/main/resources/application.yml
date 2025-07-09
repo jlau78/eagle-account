@@ -1,0 +1,21 @@
+
+spring:
+  application:
+    name: profile-application
+    env: noset
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+
+server:
+  port: ${SERVER_PORT:8086}
+
+
+springdoc:
+  swagger-ui:
+    url: /openapi.yaml
+
+
